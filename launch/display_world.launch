@@ -1,0 +1,15 @@
+<launch>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="false"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="verbose" default="false"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find simulation_env)/launch/include/world/market1.world"/>
+        <arg name="use_sim_time" value="true"/>
+        <!-- <arg name="gui" value="true"/> -->
+        <arg name="debug" value="false"/>
+    </include>
+</launch>

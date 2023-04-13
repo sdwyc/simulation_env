@@ -1,0 +1,45 @@
+<launch>
+
+  <param name="use_sim_time" value="true" />
+
+<!-- -configuration_directory $(find cartographer_ros)/configuration_files -->
+  <node name="cartographer_node" pkg="cartographer_ros"
+      type="cartographer_node" args="
+          -configuration_directory $(find simulation_env)/launch/include/config/cartographer_config
+          -configuration_basename pure_localization.lua
+          -load_state_filename $(find simulation_env)/launch/include/map/super_mall.pbstream"
+      output="screen">
+    <remap from="scan" to="scan" />
+  </node>
+
+  <!-- <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+      type="cartographer_occupancy_grid_node" args="-resolution 0.1 " /> -->
+                                                   <!-- -pure_localization 1" /> -->
+
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+    <rosparam file="$(find simulation_env)/launch/include/config/param/costmap_common_params_burger.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/costmap_common_params_burger.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/move_base_params.yaml" command="load" />
+    <param name="footprint_padding" value="0.01" />
+    <param name="controller_frequency" value="5.0" />
+    <param name="controller_patience" value="5.0" />
+    <param name="oscillation_timeout" value="30.0" />
+    <param name="oscillation_distance" value="0.5" />
+    <param name="planner_patience" value="1" />
+    <param name="controller_patience" value="1" /> 
+    <param name="recovery_behavior_enabled" value="false" />
+    <param name="global_costmap/global_frame" value="map"/>
+    <param name="global_costmap/robot_base_frame" value="base_footprint"/>
+    <param name="global_costmap/laser_scan_sensor/sensor_frame" value="base_scan"/>
+    <param name="global_costmap/laser_scan_sensor/topic" value="scan"/>    
+    <param name="local_costmap/global_frame" value="odom"/>
+    <param name="local_costmap/robot_base_frame" value="base_footprint"/>
+    <param name="local_costmap/laser_scan_sensor/sensor_frame" value="base_scan"/>
+    <param name="local_costmap/laser_scan_sensor/topic" value="scan"/>
+    <param name="local_costmap/obstacle_layer/laser_scan_sensor/topic" value="scan"/>
+  </node>
+
+  </launch>

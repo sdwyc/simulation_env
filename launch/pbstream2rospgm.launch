@@ -1,0 +1,13 @@
+<launch>
+    <arg name="pbstream_filename" value="/home/sdu/super_mall.pbstream"/>
+    <arg name="map_filestem" value="/home/sdu/ros_map1"/>
+    <arg name="resolution" value="0.05"/>
+
+    <node name="cartographer_pbstream_to_ros_map" pkg="cartographer_ros"
+        type="cartographer_pbstream_to_ros_map" args="
+            -pbstream_filename $(arg pbstream_filename)
+            -map_filestem $(arg map_filestem)
+            -resolution $(arg resolution)"
+        output="screen">
+    </node>
+  </launch>

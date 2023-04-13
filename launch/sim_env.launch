@@ -1,0 +1,31 @@
+<launch>
+    <master auto="start"/>
+    <arg name="x_pos" default="0.0"/>
+    <arg name="y_pos" default="0.0"/>
+    <arg name="z_pos" default="0.0"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find simulation_env)/launch/include/world/house.world"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="false"/>
+        <arg name="debug" value="false"/>
+    </include> 
+<!-- open model -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find simulation_env)/urdf/turtlebot2/turtlebot2.xacro" />
+    <!-- <param name="robot_description" command="$(find xacro)/xacro inorder $(find simulation_env)/urdf/scout/scout_v2.xacro" /> -->
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+        <param name="publish_frequency" value="100"/>
+    </node>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="publish_frequency" value="100"/>
+    </node>
+
+    <include file="$(find simulation_env)/launch/include/movebase_cartographer.launch"/>
+    <!-- <include file="$(find simulation_env)/launch/include/scout_param/movebase_gmapping.launch"/> -->
+
+    <!-- Open simulation environment -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simulation_env)/launch/include/config/rviz/slam_cartographer.rviz" />
+
+
+</launch>

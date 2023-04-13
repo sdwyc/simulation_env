@@ -1,0 +1,35 @@
+<!-- move base -->
+<launch>
+
+  <param name="use_sim_time" value="true" />
+
+    <!-- - TF -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="camera_to_odom" args="0 0 0 0 0 0  /aft_mapped /odom   40" /> -->
+
+<!-- LIO-SAM -->
+    <!-- Parameters -->
+    <rosparam file="$(find simulation_env)/launch/include/config/slam/lio_sam_params.yaml" command="load" />
+    <arg name="project" default="lio_sam"/>
+    
+    <node pkg="$(arg project)" type="$(arg project)_imuPreintegration"   name="$(arg project)_imuPreintegration"    output="screen" 	respawn="true"/>
+    <node pkg="$(arg project)" type="$(arg project)_imageProjection"     name="$(arg project)_imageProjection"      output="screen"     respawn="true"/>
+    <node pkg="$(arg project)" type="$(arg project)_featureExtraction"   name="$(arg project)_featureExtraction"    output="screen"     respawn="true"/>
+    <node pkg="$(arg project)" type="$(arg project)_mapOptmization"      name="$(arg project)_mapOptmization"       output="screen"     respawn="true"/>
+    <!-- <env name="ROSCONSOLE_CONFIG_FILE" value="$(find lio_sam)/launch/include/rosconsole/rosconsole_error.conf"/> -->
+    
+    <!-- EKF GPS-->
+    <!-- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps" respawn="true">
+        <remap from="odometry/filtered" to="odometry/navsat" />
+    </node> -->
+
+    <!-- Navsat -->
+    <!-- <node pkg="robot_localization" type="navsat_transform_node" name="navsat" respawn="true">
+        <remap from="imu/data" to="imu_correct" />
+        <remap from="gps/fix" to="gps/fix" />
+        <remap from="odometry/filtered" to="odometry/navsat" />
+    </node> -->
+
+    <!-- Open simulation environment -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simulation_env)/launch/include/config/rviz/lio-sam.rviz" />
+
+</launch>

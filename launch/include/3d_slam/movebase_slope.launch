@@ -1,0 +1,23 @@
+<!-- move base -->
+<launch>
+  <param name="use_sim_time" value="true" />
+  <remap from="imu/data" to="imu" />
+  <rosparam file="$(find slopeLO)/config/params.yaml" command="load" />
+  <!--- TF -->
+  <node pkg="tf" type="static_transform_publisher" name="camera_init_to_map"  args="0 0 0 1.570795   0        1.570795 /map    /camera_init 10" />
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera" args="0 0 0 -1.570795 -1.570795 0        /camera /base_link   10" />
+  <!--- LeGO-LOAM -->    
+  <node pkg="slopeLO" type="imageProjection"    name="imageProjection"    output="screen">
+  </node>
+  <node pkg="slopeLO" type="featureAssociation" name="featureAssociation" output="screen">
+  </node>
+  <node pkg="slopeLO" type="mapOptmization"     name="mapOptmization"     output="screen">
+  </node>
+  <node pkg="slopeLO" type="transformFusion"    name="transformFusion"    output="screen">
+  </node>
+  <node pkg="slopeLO" type="slopeEstimation"    name="slopeEstimation"    output="screen">
+  </node>
+  <!-- Open simulation environment -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simulation_env)/launch/include/config/rviz/lego_loam.rviz" />
+
+</launch>

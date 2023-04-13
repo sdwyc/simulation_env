@@ -1,0 +1,32 @@
+<launch>
+    <param name="use_sim_time" value="true" />
+    <arg name="x_pos" default="0.0"/>
+    <arg name="y_pos" default="0.0"/>
+    <arg name="z_pos" default="0.0"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find simulation_env)/launch/include/world/museum/museum.world"/>
+        <!-- <arg name="paused" value="false"/> -->
+        <param name="use_sim_time" value="true"/>
+        <arg name="gui" value="false"/>
+        <!-- <arg name="headless" value="false"/> -->
+        <arg name="debug" value="false"/>
+    </include> 
+<!-- open octomap server -->
+	<!-- <node name="octomap_server" pkg="octomap_server" type="octomap_server_node">
+		<remap from="cloud_in" to="velodyne_points" />
+		<param name="frame_id" type="string" value="map" />
+		<param name="latch" value="false" />
+		<param name="resolution" value="0.1" />
+	</node> -->
+<!-- open model -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find simulation_env)/urdf/scout/scout_v2.xacro" />
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model turtlebot3 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+        <param name="publish_frequency" value="50"/>
+    </node>
+
+    <!-- <include file="$(find simulation_env)/launch/include/3d_slam/movebase_fastlio2.launch"/> -->
+    <include file="$(find simulation_env)/launch/include/3d_slam/movebase_aloam.launch"/> 
+
+</launch>
