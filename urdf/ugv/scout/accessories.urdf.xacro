@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="scout" xmlns:xacro="https://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find simulation_env)/urdf/ugv/scout/imu/imu_scout.xacro" />
+  <xacro:imu frame="imu" topic="imu" update_rate="1000"/>
+  
+
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" hz="100" samples="440" gpu="false">
+  <origin xyz="0.15 0 0.25" rpy="0 0 0" />
+</xacro:VLP-16>
+
+<xacro:include filename="$(find simulation_env)/urdf/sensor/realsense/realsense_gazebo.urdf.xacro" />
+<xacro:property name="realsense_offset_x" value="0.38" />
+<xacro:property name="realsense_offset_y" value="0.0" />
+<xacro:property name="realsense_offset_z" value="0.11" />
+<xacro:property name="M_PI" value="3.1415926" />
+
+<xacro:realsense_camera prefix="camera"/>
+<joint name="realsense_frame_joint" type="fixed">
+  <origin xyz="${realsense_offset_x} ${realsense_offset_y} ${realsense_offset_z}" rpy="0 0 0" />
+  <parent link="base_link"/>
+  <child link="camera_link"/>
+</joint>
+
+<xacro:include filename="$(find simulation_env)/urdf/sensor/hokuyo.urdf.xacro" />
+<xacro:hokuyo_lidar parent="base_link" range="25">
+  <origin xyz="0.15 0 0.135" rpy="0 0 0" />
+</xacro:hokuyo_lidar>
+
+
+</robot>

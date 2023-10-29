@@ -8,7 +8,7 @@
 
 <!-- LIO-SAM -->
     <!-- Parameters -->
-    <rosparam file="$(find simulation_env)/launch/include/config/slam/lio_sam_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/lio_sam_params.yaml" command="load" />
     <arg name="project" default="lio_sam"/>
     
     <node pkg="$(arg project)" type="$(arg project)_imuPreintegration"   name="$(arg project)_imuPreintegration"    output="screen" 	respawn="true"/>
@@ -18,17 +18,43 @@
     <!-- <env name="ROSCONSOLE_CONFIG_FILE" value="$(find lio_sam)/launch/include/rosconsole/rosconsole_error.conf"/> -->
     
     <!-- EKF GPS-->
-    <!-- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps" respawn="true">
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps" respawn="true">
         <remap from="odometry/filtered" to="odometry/navsat" />
-    </node> -->
+    </node>
 
     <!-- Navsat -->
-    <!-- <node pkg="robot_localization" type="navsat_transform_node" name="navsat" respawn="true">
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat" respawn="true">
+        <!-- <rosparam param="datum">[42.35893211, -71.09345588, 0.0, world, base_link]</rosparam> -->
         <remap from="imu/data" to="imu_correct" />
         <remap from="gps/fix" to="gps/fix" />
         <remap from="odometry/filtered" to="odometry/navsat" />
-    </node> -->
+    </node>
 
+
+  <!-- <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+    <rosparam file="$(find simulation_env)/launch/include/config/param/costmap_common_params_burger.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/costmap_common_params_burger.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/param/move_base_params.yaml" command="load" />
+    <param name="footprint_padding" value="0.01" />
+    <param name="controller_frequency" value="10.0" />
+    <param name="controller_patience" value="3.0" />
+    <param name="oscillation_timeout" value="30.0" />
+    <param name="oscillation_distance" value="0.5" />
+    <param name="planner_patience" value="1" />
+    <param name="controller_patience" value="1" /> 
+    <param name="recovery_behavior_enabled" value="false" />
+    <param name="global_costmap/global_frame" value="map"/>
+    <param name="global_costmap/robot_base_frame" value="base_footprint"/>
+    <param name="global_costmap/laser_scan_sensor/sensor_frame" value="base_scan"/>
+    <param name="global_costmap/laser_scan_sensor/topic" value="scan"/>    
+    <param name="local_costmap/global_frame" value="odom"/>
+    <param name="local_costmap/robot_base_frame" value="base_footprint"/>
+    <param name="local_costmap/laser_scan_sensor/sensor_frame" value="base_scan"/>
+    <param name="local_costmap/laser_scan_sensor/topic" value="scan"/>
+    <param name="local_costmap/obstacle_layer/laser_scan_sensor/topic" value="base_scan"/>
+  </node> -->
     <!-- Open simulation environment -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simulation_env)/launch/include/config/rviz/lio-sam.rviz" />
 

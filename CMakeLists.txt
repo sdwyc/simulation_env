@@ -154,6 +154,11 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+add_executable(computePath src/computePath.cpp)
+target_link_libraries(computePath  ${catkin_LIBRARIES})
+
+add_executable(map_print src/map_print.cpp)
+target_link_libraries(map_print  ${catkin_LIBRARIES})
 
 # add_executable(addTime src/addTime.cpp)
 # target_link_libraries(addTime  ${catkin_LIBRARIES})

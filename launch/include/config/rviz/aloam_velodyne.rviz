@@ -5,10 +5,11 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /mapping1
+        - /Status1
+        - /mapping1/allMapCloud1
         - /TF1/Frames1
       Splitter Ratio: 0.5
-    Tree Height: 465
+    Tree Height: 494
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -156,7 +157,7 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: false
-      Enabled: false
+      Enabled: true
       Name: odometry
     - Class: rviz/Group
       Displays:
@@ -168,8 +169,8 @@ Visualization Manager:
           Head Diameter: 0.30000001192092896
           Head Length: 0.20000000298023224
           Length: 0.30000001192092896
-          Line Style: Billboards
-          Line Width: 0.5
+          Line Style: Lines
+          Line Width: 0.029999999329447746
           Name: mappingPath
           Offset:
             X: 0
@@ -183,17 +184,17 @@ Visualization Manager:
           Topic: /aft_mapped_path
           Unreliable: false
           Value: true
-        - Alpha: 0.20000000298023224
+        - Alpha: 0.800000011920929
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
-            Max Value: 89.0160140991211
-            Min Value: -118.8355941772461
+            Max Value: 5.508817195892334
+            Min Value: -5.840653419494629
             Value: true
           Axis: X
           Channel Name: intensity
           Class: rviz/PointCloud2
           Color: 255; 255; 255
-          Color Transformer: Intensity
+          Color Transformer: AxisColor
           Decay Time: 0
           Enabled: true
           Invert Rainbow: false
@@ -205,7 +206,7 @@ Visualization Manager:
           Selectable: true
           Size (Pixels): 3
           Size (m): 0.019999999552965164
-          Style: Points
+          Style: Spheres
           Topic: /laser_cloud_map
           Unreliable: false
           Use Fixed Frame: true
@@ -623,12 +624,20 @@ Visualization Manager:
         All Enabled: false
         aft_mapped:
           Value: false
-        camera:
+        base_link:
           Value: true
         camera_init:
           Value: false
+        imu_link:
+          Value: false
+        inertial_link:
+          Value: false
+        odom:
+          Value: false
         velodyne:
-          Value: true
+          Value: false
+        velodyne_base_link:
+          Value: false
       Marker Scale: 3
       Name: TF
       Show Arrows: true
@@ -637,14 +646,22 @@ Visualization Manager:
       Tree:
         camera_init:
           aft_mapped:
-            {}
+            odom:
+              base_link:
+                imu_link:
+                  {}
+                inertial_link:
+                  {}
+                velodyne_base_link:
+                  velodyne:
+                    {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 46; 52; 54
     Default Light: true
-    Fixed Frame: camera_init
+    Fixed Frame: aft_mapped
     Frame Rate: 30
   Name: root
   Tools:
@@ -668,35 +685,35 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 100.68175506591797
+      Distance: 15.892580032348633
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -4.880828857421875
-        Y: 7.531624794006348
+        X: 2.8526480197906494
+        Y: 0.42957043647766113
         Z: -2.3097984790802
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 1.3697965145111084
       Target Frame: body
       Value: XYOrbit (rviz)
-      Yaw: 1.9899686574935913
+      Yaw: 0.021864432841539383
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 953
+  Height: 1018
   Hide Left Dock: false
   Hide Right Dock: true
   Image:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000016a00000318fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000263000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d00610067006501000002a6000000af0000001600ffffff000000010000010f00000318fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003d00000318000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000078000000041fc0100000002fb0000000800540069006d0065010000000000000780000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000006100000031800000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000016a0000034afc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006e00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000000470000028a000000f100fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000a0049006d00610067006501000002d8000000b90000001900ffffff000000010000010f00000396fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000002800000396000000c200fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000073700000041fc0100000002fb0000000800540069006d00650100000000000007370000037100fffffffb0000000800540069006d00650100000000000004500000000000000000000005c60000034a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -705,6 +722,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: true
-  Width: 1920
-  X: 1920
-  Y: 28
+  Width: 1847
+  X: 1993
+  Y: 34

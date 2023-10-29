@@ -1,0 +1,53 @@
+<launch>
+    <master auto="start"/>
+    <param name="/use_sim_time" value="true"/>
+  
+   <!-- <node pkg="mr_exploration" name="sim" type="slam_node" output="screen" args="-idRobot 0 -nRobots 1 -scanTopic base_scan -fixedFrame trajectory -o testmrslam.g2o" />   -->
+    
+  -<arg name="scan_topic" default="base_scan" />
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+      <param name="odom_frame" value="odom"/>
+      <param name="map_update_interval" value="0.5"/>
+      <param name="sigma" value="0.05"/>
+      <param name="kernelSize" value="1"/>
+      <param name="lstep" value="0.05"/>
+      <param name="astep" value="0.05"/>
+      <param name="iterations" value="5"/>
+      <param name="lsigma" value="0.075"/>
+      <param name="ogain" value="3.0"/>
+      <param name="lskip" value="0"/>
+      <param name="srr" value="0.01"/>
+      <param name="srt" value="0.02"/>
+      <param name="str" value="0.01"/>
+      <param name="stt" value="0.02"/>
+      <param name="linearUpdate" value="0.5"/>
+      <param name="angularUpdate" value="0.436"/>
+      <param name="temporalUpdate" value="-1.0"/>
+      <param name="resampleThreshold" value="0.5"/>
+      <param name="particles" value="50"/>
+      <param name="xmin" value="-10"/>
+      <param name="ymin" value="-10"/>
+      <param name="xmax" value="10"/>
+      <param name="ymax" value="10"/>
+      <param name="delta" value="0.1"/>
+      <param name="llsamplerange" value="0.01"/>
+      <param name="llsamplestep" value="0.01"/>
+      <param name="lasamplerange" value="0.005"/>
+      <param name="lasamplestep" value="0.005"/>
+      <remap from="scan" to="$(arg scan_topic)"/>
+    </node> 
+  
+    <node pkg="stage_ros" type="stageros" name="stageros" args=" $(find simulation_env)/launch/include/stage/test.world" respawn="false" >
+      <param name="base_watchdog_timeout" value="0.2"/>
+    </node>
+
+  
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simulation_env)/launch/include/config/rviz/slam.rviz" />
+  
+    <!-- <include file="$(find simulation_env)/launch/include/movebase_gmapping.launch"/> -->
+  
+  
+  
+  </launch>
+  
+  
