@@ -5,13 +5,13 @@
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
     <remap from="cmd_vel" to="/robot/cmd_vel"/>
-    <rosparam file="$(find simulation_env)/launch/include/config/move_param/scout/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find simulation_env)/launch/include/config/move_param/scout/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find simulation_env)/launch/include/config/move_param/scout/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find simulation_env)/launch/include/config/move_param/scout/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find simulation_env)/launch/include/config/move_param/scout/move_base_params.yaml" command="load" />
-    <rosparam file="$(find simulation_env)/launch/include/config/move_param/scout/global_planner_params.yaml" command="load" />
-    <rosparam file="$(find simulation_env)/launch/include/config/move_param/scout/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/move_param/tb3/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find simulation_env)/launch/include/config/move_param/tb3/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find simulation_env)/launch/include/config/move_param/tb3/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/move_param/tb3/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/move_param/tb3/move_base_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/move_param/tb3/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find simulation_env)/launch/include/config/move_param/tb3/teb_local_planner_params.yaml" command="load" />
 
   </node>
 
